@@ -8,72 +8,58 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700;900&display=swap');
-    :root { --neon: #67e8f9; }
     body { 
-        margin:0; padding:0; font-family: 'Orbitron', system-ui; background: #02040a; color: #e0f2fe; overflow-x:hidden; height:100vh;
-        background: linear-gradient(rgba(2,4,10,0.25), rgba(2,4,10,0.75)), url('https://raw.githubusercontent.com/crootrabot-cpu/universal-family-navigator/main/background.jpg') center/cover no-repeat fixed !important;
-        touch-action: manipulation;
+        margin:0; padding:0; font-family: 'Orbitron', system-ui; background: #02040a; color: #e0f2fe; overflow-x:hidden; height:100vh; position:relative;
+        background: linear-gradient(rgba(2,4,10,0.3), rgba(2,4,10,0.85)), url('https://raw.githubusercontent.com/crootrabot-cpu/universal-family-navigator/main/background.jpg') center/cover no-repeat fixed !important;
     }
-    .header { padding:30px 20px 20px; text-align:center; position:relative; z-index:5; }
-    .header h1 { font-family: 'Press Start 2P', sans-serif; font-size:2.4rem; margin:0; color:var(--neon); text-shadow:0 0 20px #22d3ee, 0 0 40px #c026d3; letter-spacing:4px; }
-    .header p { margin:6px 0 0; font-size:1.05rem; color:#c4d0ff; text-shadow:0 0 15px var(--neon); }
+    .header { padding:40px 20px; text-align:center; z-index:10; position:relative; }
+    .header h1 { font-family: 'Press Start 2P', sans-serif; font-size:2.6rem; margin:0; color:#67e8f9; text-shadow:0 0 25px #22d3ee, 0 0 50px #c026d3; }
+    .header p { margin:8px 0 0; color:#c4d0ff; font-size:1.1rem; text-shadow:0 0 15px #67e8f9; }
     .balloon {
-        position:absolute; width:72px; height:88px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center;
-        font-weight:900; font-size:10px; text-align:center; line-height:1; color:#02040a; box-shadow:0 8px 25px rgba(0,0,0,0.5);
-        transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55); user-select:none; z-index:20;
-        background: radial-gradient(circle at 35% 25%, #ffffff 12%, transparent 50%);
+        position:absolute; width:85px; height:110px; cursor:pointer; z-index:50; transition: all 0.4s ease; user-select:none;
+        filter: drop-shadow(0 15px 15px rgba(0,0,0,0.5));
     }
-    .balloon::after { content:''; position:absolute; bottom:-22px; left:50%; width:5px; height:32px; background:#1e2937; transform:translateX(-50%); border-radius:2px; }
-    .balloon.plan { background:#67e8f9; left:12%; top:22%; animation:float1 6s infinite ease-in-out; }
-    .balloon.rides { background:#a78bfa; left:28%; top:48%; animation:float2 8s infinite ease-in-out; }
-    .balloon.food { background:#86efac; left:65%; top:18%; animation:float3 5s infinite ease-in-out; }
-    .balloon.weather { background:#fcd34d; left:18%; top:68%; animation:float1 7s infinite ease-in-out; }
-    .balloon.tips { background:#fb7185; left:72%; top:62%; animation:float2 9s infinite ease-in-out; }
-    @keyframes float1 { 0%,100% { transform:translateY(0) rotate(-4deg); } 50% { transform:translateY(-25px) rotate(4deg); } }
-    @keyframes float2 { 0%,100% { transform:translateY(0) rotate(6deg); } 50% { transform:translateY(-35px) rotate(-6deg); } }
-    @keyframes float3 { 0%,100% { transform:translateY(0) rotate(-8deg); } 50% { transform:translateY(-20px) rotate(8deg); } }
-    .balloon:hover { transform:scale(1.35) !important; }
+    .balloon:active { transform:scale(0.85); }
     .panel {
-        position:fixed; bottom:0; left:0; right:0; background:rgba(2,4,10,0.97); z-index:30; max-height:78vh; overflow:auto;
-        border-top:5px solid var(--neon); border-radius:24px 24px 0 0; padding:24px; box-shadow:0 -10px 40px rgba(103,232,249,0.6); display:none;
+        position:fixed; bottom:0; left:0; right:0; background:rgba(2,4,10,0.97); z-index:40; max-height:75vh; overflow:auto;
+        border-top:8px solid #67e8f9; border-radius:28px 28px 0 0; padding:30px 20px 120px; box-shadow:0 -20px 50px rgba(103,232,249,0.6); display:none;
     }
-    .panel.active { display:block; animation:popUp 0.4s ease forwards; }
-    @keyframes popUp { from { transform:translateY(100%); opacity:0; } to { transform:translateY(0); opacity:1; } }
-    .card { background:rgba(15,23,42,0.95); border:3px solid var(--neon); border-radius:20px; padding:22px; margin-bottom:22px; box-shadow:0 0 35px rgba(103,232,249,0.5); }
-    .neon { text-shadow:0 0 12px var(--neon), 0 0 25px #a78bfa; }
-    .ride, .food-item { background:rgba(30,41,59,0.9); padding:16px; border-radius:16px; margin-bottom:14px; border-left:6px solid #4ade80; }
-    .review { font-size:0.8rem; color:#a5f3fc; margin-top:10px; border-top:1px solid #67e8f9; padding-top:8px; font-style:italic; }
-    .map { height:280px; border-radius:18px; border:3px solid var(--neon); margin:18px 0; box-shadow:0 0 25px rgba(103,232,249,0.6); }
-    .close { position:fixed; bottom:90px; left:50%; transform:translateX(-50%); background:#ef4444; color:white; width:52px; height:52px; border-radius:50%; font-size:28px; border:none; box-shadow:0 0 20px #ef4444; z-index:40; }
+    .panel.active { display:block; animation:slideUp 0.5s cubic-bezier(0.34,1.56,0.64,1); }
+    @keyframes slideUp { from { transform:translateY(120%); } to { transform:translateY(0); } }
+    .card { background:rgba(15,23,42,0.95); border:3px solid #67e8f9; border-radius:24px; padding:24px; margin-bottom:24px; box-shadow:0 0 40px rgba(103,232,249,0.5); }
+    .neon { text-shadow:0 0 15px #67e8f9, 0 0 35px #a78bfa; }
+    .ride, .food-item { background:rgba(30,41,59,0.9); padding:18px; border-radius:18px; margin-bottom:16px; border-left:6px solid #4ade80; }
+    .review { font-size:0.85rem; color:#a5f3fc; margin-top:12px; border-top:1px dashed #67e8f9; padding-top:10px; font-style:italic; }
+    .map { height:320px; border-radius:20px; border:4px solid #67e8f9; margin:24px 0; box-shadow:0 0 30px rgba(103,232,249,0.7); }
+    .close { position:fixed; bottom:140px; left:50%; transform:translateX(-50%); background:#ef4444; color:white; width:64px; height:64px; border-radius:50%; font-size:32px; line-height:60px; text-align:center; border:none; box-shadow:0 0 30px #ef4444; z-index:60; }
 </style>
 </head>
 <body>
 <div class="header">
     <h1 class="neon">CORBIN'S BDAY TRIP</h1>
-    <p>Universal Orlando • Family Coaster Crew • Realistic Portrait Background</p>
+    <p>Universal Orlando • Realistic Family Coaster Crew</p>
 </div>
 
-<div class="balloon plan" onclick="openPanel(0)">PLAN</div>
-<div class="balloon rides" onclick="openPanel(1)">RIDES</div>
-<div class="balloon food" onclick="openPanel(2)">FOOD</div>
-<div class="balloon weather" onclick="openPanel(3)">WEATHER</div>
-<div class="balloon tips" onclick="openPanel(4)">TIPS</div>
+<img src="balloon-plan.jpg" onclick="openPanel(0)" class="balloon" style="left:8%;top:15%;width:82px;" alt="PLAN">
+<img src="balloon-rides.jpg" onclick="openPanel(1)" class="balloon" style="left:22%;top:52%;width:82px;" alt="RIDES">
+<img src="balloon-food.jpg" onclick="openPanel(2)" class="balloon" style="left:55%;top:22%;width:82px;" alt="FOOD">
+<img src="balloon-weather.jpg" onclick="openPanel(3)" class="balloon" style="left:15%;top:68%;width:82px;" alt="WEATHER">
+<img src="balloon-tips.jpg" onclick="openPanel(4)" class="balloon" style="left:68%;top:58%;width:82px;" alt="TIPS">
 
 <div id="panel0" class="panel">
     <div class="card">
-        <h2 class="neon">🎂 2-DAY PLAN</h2>
-        <p>Sat USF: Rope drop Gringotts. Leaky Cauldron birthday lunch.</p>
-        <p>Sun IOA: Hogsmeade early, Mythos birthday meal.</p>
-        <div class="review">"Best family trip ever — the crew on the coaster was magic" (TouringPlans 5/5)</div>
+        <h2 class="neon">🎂 PLAN</h2>
+        <p>Saturday USF rope drop Gringotts. Leaky Cauldron birthday lunch. Sunday IOA Hogsmeade and Mythos.</p>
+        <div class="review">"The crew on the coaster was the highlight" – Family portrait review</div>
     </div>
 </div>
 
 <div id="panel1" class="panel">
     <div class="card">
         <h2 class="neon">🎢 RIDES</h2>
-        <div class="ride">Gringotts (USF) ~25min <div class="review">"Mind-blowing for the kids, 4.9/5" – TouringPlans</div></div>
-        <div class="ride">Hagrid's (IOA) ~50min <div class="review">"Magical family ride, everyone loved it" – Reddit</div></div>
-        <div class="ride">VelociCoaster (IOA) ~60min <div class="review">"Thrilling but the bear cub was fearless" – Family reports</div></div>
+        <div class="ride">Gringotts (USF) ~25min <div class="review">"Mind-blowing theming, 4.9/5 for kids" – TouringPlans</div></div>
+        <div class="ride">Hagrid's (IOA) ~50min <div class="review">"Magical for the whole family crew" – Reddit</div></div>
+        <div class="ride">VelociCoaster (IOA) ~60min <div class="review">"Thrilling - the spotted jaguar and cub loved it" – Reports</div></div>
     </div>
 </div>
 
@@ -81,23 +67,23 @@
     <div class="card">
         <h2 class="neon">🍔 FOOD + MAP</h2>
         <div id="food-map" class="map"></div>
-        <div class="food-item">Mythos (IOA) $$–$$$ <div class="review">"Perfect birthday meal, aquarium is a hit with the unicorn and kids" – TripAdvisor 4.8</div></div>
-        <div class="food-item">Leaky Cauldron (USF) $$ <div class="review">"Themed heaven for the alien and dinosaur, great value" – TouringPlans</div></div>
-        <div class="food-item">Springfield Tacos $ <div class="review">"Cheapest and fastest for the whole crew including the old Shiba" – MouseSavers</div></div>
+        <div class="food-item">Mythos (IOA) $$–$$$ <div class="review">"Perfect for 9yo birthday, aquarium is a hit" – 4.8 TripAdvisor</div></div>
+        <div class="food-item">Leaky Cauldron (USF) $$ <div class="review">"Themed heaven for the realistic alien and dinosaur" – TouringPlans</div></div>
+        <div class="food-item">Springfield Tacos $ <div class="review">"Cheapest for the Basenji, old Shiba, and crew" – MouseSavers</div></div>
     </div>
 </div>
 
 <div id="panel3" class="panel">
     <div class="card">
         <h2 class="neon">🌤️ WEATHER</h2>
-        <div id="weather-live" style="padding:30px;background:rgba(15,23,42,0.8);border-radius:16px;">Live data for Corbin's bday coaster trip...</div>
+        <div id="weather-live" style="padding:40px;background:rgba(15,23,42,0.8);border-radius:20px;">Live Open-Meteo for Corbin's bday...</div>
     </div>
 </div>
 
 <div id="panel4" class="panel">
     <div class="card">
         <h2 class="neon">💡 TIPS</h2>
-        <div style="line-height:1.8">• Cooler for the Basenji and old Shiba. • Morning rope drop. • Mobile order. • The realistic spotted jaguar, small bear cub, realistic alien, dinosaur, unicorn crew is in the background.</div>
+        <div style="line-height:1.9">Cooler for the dogs. Morning rope drop. Mobile order. The realistic family (small cub, spotted jaguar, realistic alien, Basenji, old Shiba, dinosaur, unicorn, no lady) is the background.</div>
     </div>
 </div>
 
@@ -107,8 +93,8 @@
 function openPanel(n) {
     document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
     document.getElementById('panel' + n).classList.add('active');
-    if (n === 2) initMap();
-    if (n === 3) loadWeather();
+    if (n === 2) setTimeout(initMap, 100);
+    if (n === 3) setTimeout(loadWeather, 100);
 }
 
 function closeAll() {
@@ -121,15 +107,16 @@ function initMap() {
     const mapDiv = document.createElement('div');
     mapDiv.id = 'food-map';
     mapDiv.className = 'map';
-    document.querySelector('#panel2 .card').appendChild(mapDiv);
+    const card = document.querySelector('#panel2 .card');
+    card.appendChild(mapDiv);
     mapInstance = L.map('food-map').setView([28.472, -81.468], 15.5);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mapInstance);
     const pins = [
-        {lat:28.4718, lng:-81.4665, popup:'Leaky Cauldron - Birthday spot'},
-        {lat:28.4729, lng:-81.4725, popup:'Mythos - Top family restaurant'},
-        {lat:28.4752, lng:-81.4648, popup:'Springfield - Cheapest for the crew'}
+        {lat:28.4718,lng:-81.4665,popup:'Leaky Cauldron - Birthday spot'},
+        {lat:28.4729,lng:-81.4725,popup:'Mythos - Top family'},
+        {lat:28.4752,lng:-81.4648,popup:'Springfield - Cheapest'}
     ];
-    pins.forEach(p => L.marker([p.lat, p.lng]).addTo(mapInstance).bindPopup(p.popup));
+    pins.forEach(p => L.marker([p.lat,p.lng]).addTo(mapInstance).bindPopup(p.popup));
 }
 
 async function loadWeather() {
@@ -138,14 +125,14 @@ async function loadWeather() {
         const r = await fetch('https://api.open-meteo.com/v1/forecast?latitude=28.54&longitude=-81.38&current=temperature_2m,relative_humidity_2m,precipitation&timezone=America/New_York');
         const d = await r.json();
         const f = Math.round(d.current.temperature_2m * 9/5 + 32);
-        div.innerHTML = `<div style="font-size:3rem;font-weight:900;color:#67e8f9;">${f}°F</div><div style="color:#a5f3fc;">Humidity ${d.current.relative_humidity_2m}% • Rain ${d.current.precipitation||0}mm</div><div style="margin-top:16px;">Perfect for Corbin\\'s bday coaster ride with the spotted jaguar, small bear cub, realistic alien, Basenji, old Shiba, dinosaur and unicorn.</div>`;
+        div.innerHTML = `<div style="font-size:3.5rem;font-weight:900;color:#67e8f9;">${f}°F</div><div style="color:#a5f3fc;">Humidity ${d.current.relative_humidity_2m}%</div>`;
     } catch(e) {
-        div.innerHTML = 'Oct weather for the crew: warm, possible PM rain. Mornings best. The realistic portrait background shows the full family (no lady, spotted jaguar, small cub, Basenji + old Shiba).';
+        div.innerHTML = 'Oct weather for Corbin\\'s trip with the crew: warm, possible rain. Mornings best.';
     }
 }
 
 window.onload = () => {
-    console.log('%cCorbin\\'s Bday Trip with floating realistic balloons, full background visible by default (small bear cub, realistic alien like portrait, spotted jaguar, Basenji, old Shiba Inu, no lady, dinosaur, unicorn on the coaster), improved phone view with larger tap targets and responsive layout, reviews next to rides/food. Balloons float around the screen with animation.', 'color:#67e8f9');
+    console.log('%cCorbin\\'s Bday Trip with 5 AI-generated realistic balloons (photo style with shine and strings). Click any balloon to open panel. Default shows full family background (small cub, realistic alien, spotted jaguar, Basenji, old Shiba, no lady). Phone view optimized. Hard refresh if balloons or background look old.', 'color:#67e8f9;font-size:13px');
 };
 </script>
 </body>

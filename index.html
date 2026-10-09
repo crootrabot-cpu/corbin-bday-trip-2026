@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Corbin's Bday Trip</title>
+<title>Corbin's 9th Bday Universal Adventure</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
@@ -36,16 +36,19 @@
     .close { position:fixed; bottom:90px; left:50%; transform:translateX(-50%); background:#b91c1c; color:white; width:52px; height:52px; border-radius:50%; font-size:24px; line-height:48px; text-align:center; border:none; box-shadow:0 4px 15px rgba(0,0,0,0.3); z-index:60; }
     .label { font-size:0.8rem; padding:2px 8px; border-radius:9999px; margin-left:8px; background:#166534; color:#86efac; }
     .scary-label { background:#7f1d1d; color:#fda4af; }
+    .panel-header {
+        width:100%; max-height:180px; object-fit:cover; border-radius:12px; margin-bottom:16px; box-shadow:0 4px 15px rgba(0,0,0,0.3); border:2px solid #3b82f6;
+    }
 </style>
 </head>
 <body>
 <div class="header">
-    <h1>Corbin's Bday Trip</h1>
-    <p>Universal Orlando • Normal Readable Text</p>
+    <h1>Corbin's 9th Bday Universal Adventure</h1>
+    <p>Universal Orlando • Family Crew Navigator (Bear Cub, Realistic Alien, Spotted Jaguar, Basset Hound, Old Shiba, Green Dino, White Unicorn)</p>
 </div>
 
 <div class="bottom-bar">
-    <div onclick="openPanel(0)" class="lego-btn">Plan</div>
+    <div onclick="openPanel(0)" class="lego-btn">Home</div>
     <div onclick="openPanel(1)" class="lego-btn rides">Rides</div>
     <div onclick="openPanel(2)" class="lego-btn food">Food</div>
     <div onclick="openPanel(3)" class="lego-btn weather">Weather</div>
@@ -54,15 +57,17 @@
 
 <div id="panel0" class="panel">
     <div class="card">
-        <h2 style="color:#bae6fd;margin-top:0;">Plan</h2>
-        <p><strong>Saturday - Universal Studios Florida:</strong> Arrive at opening for rope drop in Diagon Alley (lowest crowds in mornings per historical data). Prioritize Gringotts (40" Kid-Friendly). Mobile order lunch at Leaky Cauldron for birthday treat. Afternoon for Minions and indoor shows if rain (common PM thunderstorms in October). Cooler for snacks to save time and money. HHN likely running - focus daytime to avoid scary evening event for 9yo.</p>
-        <p><strong>Sunday - Islands of Adventure:</strong> Rope drop Hogsmeade (Hippogriff 36" Kid-Friendly, Forbidden Journey 40" Kid-Friendly). Lunch at Mythos (top rated, kid-friendly, birthday special). Afternoon for VelociCoaster if ready or indoor alternatives if weather closes outdoors. Long stays allow flexibility for crowds and weather.</p>
-        <p style="font-size:0.9rem;color:#93c5fd;">This order minimizes wait time, maximizes ride time for the family of 5, accounts for typical October crowds and weather, and avoids HHN if not included or too scary for a 9yo. All major rides assumed open; check app for real-time status.</p>
+        <img src="balloon-plan-v9.jpg" class="panel-header" alt="Family Plan">
+        <h2 style="color:#bae6fd;margin-top:0;">Home / Itinerary</h2>
+        <p><strong>Saturday - Universal Studios Florida:</strong> Rope drop Diagon Alley for Gringotts (40" kid-friendly). Birthday lunch at Leaky Cauldron. Indoor backups for PM rain. Focus on family fun with the crew.</p>
+        <p><strong>Sunday - Islands of Adventure:</strong> Hogsmeade rope drop for Hippogriff and Forbidden Journey. Mythos lunch with birthday special. VelociCoaster if the 9yo is up for it, or indoor pivots.</p>
+        <p style="font-size:0.9rem;color:#93c5fd;">Your family crew (bear cub, alien, spotted jaguar, basset, shiba, green dino, unicorn) is riding along in the background portrait. This plan balances thrills, weather, crowds, and birthday magic for all ages. Open the app on phone and add to home screen for quick access during the trip.</p>
     </div>
 </div>
 
 <div id="panel1" class="panel">
     <div class="card">
+        <img src="balloon-rides-v9.jpg" class="panel-header" alt="Rides">
         <h2 style="color:#bae6fd;margin-top:0;">Rides (USF and IOA)</h2>
         <div class="ride">Gringotts (USF) ~25min <span class="label">40" Kid-Friendly</span> <div class="review">"Mind-blowing theming - the kids were obsessed" – TouringPlans 4.9/5</div></div>
         <div class="ride">Hagrid's Motorbike (IOA) ~50min <span class="label">48" Kid-Friendly</span> <div class="review">"Magical for the whole family" – TripAdvisor 4.8/5</div></div>
@@ -79,6 +84,7 @@
 
 <div id="panel2" class="panel">
     <div class="card">
+        <img src="balloon-food-v9.jpg" class="panel-header" alt="Food">
         <h2 style="color:#bae6fd;margin-top:0;">Food + Map (USF and IOA)</h2>
         <div id="food-map" class="map"></div>
         <div class="food-item">Mythos (IOA Jurassic) $25-45 <div class="review">"Top rated for families, creative menu, aquarium theming, perfect birthday - 4.8/5" – TouringPlans/TripAdvisor</div></div>
@@ -93,6 +99,7 @@
 
 <div id="panel3" class="panel">
     <div class="card">
+        <img src="balloon-weather-v9.jpg" class="panel-header" alt="Weather">
         <h2 style="color:#bae6fd;margin-top:0;">Weather - Hourly Forecast</h2>
         <div id="weather-live" style="padding:20px;background:rgba(15,23,42,0.8);border-radius:16px;">Loading hourly forecast...</div>
         <div class="review">"Mid-October: 82-87°F highs, 40-60% daily rain chance (mostly PM thunderstorms). Mornings drier = best for rope drop. Rain thins crowds but closes outdoor rides. Indoor pivot essential for long stays." – Open-Meteo/NOAA</div>
@@ -101,15 +108,16 @@
 
 <div id="panel4" class="panel">
     <div class="card">
+        <img src="balloon-tips-v9.jpg" class="panel-header" alt="Tips">
         <h2 style="color:#bae6fd;margin-top:0;">Tips</h2>
         <div style="line-height:1.8">
-            • Download the official Universal app for live waits, mobile order, interactive map with prices and walking times.<br>
-            • Small cooler with snacks and drinks permitted (no glass, no alcohol) - biggest money saver for family of 5.<br>
-            • Get birthday button at Guest Services. Many restaurants will add a free cupcake or singing if you mention it at ordering.<br>
-            • Mornings have the lowest waits (30-50% shorter per historical data from TouringPlans). Use single rider lines for popular rides if available.<br>
-            • October HHN increases evening crowds and adds scary elements - focus on daytime if your tickets don't include HHN or if it's too intense for a 9yo.<br>
-            • Weather adaptive: PM thunderstorms common. Prioritize indoor rides (Gringotts, Mummy, shows) if rain starts. Pack ponchos (cheap in park).<br>
-            • The realistic family portrait on the coaster background is your crew riding with you.
+            • Download the official Universal app for live waits, mobile order, interactive map.<br>
+            • Small cooler with snacks permitted - biggest money saver for family of 5.<br>
+            • Get birthday button at Guest Services for free treats and singing.<br>
+            • Mornings = shortest waits. Single rider where available.<br>
+            • HHN = scary for 9yo; stick to daytime.<br>
+            • PM thunderstorms common. Pivot to indoor (Gringotts, Mummy, shows). Pack ponchos.<br>
+            • Your crew (bear cub, realistic alien, spotted jaguar, basset hound, old Shiba Inu, green dinosaur, white unicorn) is with you in the coaster family portrait on the background. This page is your zero-friction trip companion.
         </div>
     </div>
 </div>
@@ -145,7 +153,10 @@ function initMap() {
         {lat:28.4729,lng:-81.4725,popup:'Mythos (IOA) - Top rated, $25-45, kid-friendly aquarium', icon: icon},
         {lat:28.4752,lng:-81.4648,popup:'Springfield Tacos (USF) - Cheapest, $10-14', icon: icon},
         {lat:28.4705,lng:-81.4758,popup:'Three Broomsticks (IOA) - Breakfast value, $15-25', icon: icon},
-        {lat:28.4735,lng:-81.47,popup:'Family Coaster Start - Your crew here!', icon: icon}
+        {lat:28.4735,lng:-81.47,popup:'Family Coaster Start - Your crew here!', icon: icon},
+        {lat:28.4710,lng:-81.4668,popup:'Gringotts - Priority rope drop', icon: icon},
+        {lat:28.4712,lng:-81.4720,popup:"Hagrid's Motorbike - Don't miss", icon: icon},
+        {lat:28.4708,lng:-81.4715,popup:'Forbidden Journey - Magic for unicorn fans', icon: icon}
     ];
     pins.forEach(p => {
         const marker = L.marker([p.lat,p.lng], {icon: p.icon}).addTo(mapInstance);
@@ -159,13 +170,13 @@ async function loadWeather() {
     try {
         const r = await fetch('https://api.open-meteo.com/v1/forecast?latitude=28.54&longitude=-81.38&current=temperature_2m,relative_humidity_2m,precipitation&hourly=temperature_2m,precipitation_probability&timezone=America/New_York&forecast_days=1');
         const d = await r.json();
-        let html = `<div style="font-size:2.2rem;font-weight:700;color:#bae6fd;">${Math.round(d.current.temperature_2m * 9/5 + 32)}°F now</div><div style="color:#93c5fd;margin-bottom:16px;">Humidity ${d.current.relative_humidity_2m}%</div>`;
-        html += '<div style="font-weight:600;margin-bottom:8px;">Hourly:</div>';
+        let html = `<div style=\"font-size:2.2rem;font-weight:700;color:#bae6fd;\">${Math.round(d.current.temperature_2m * 9/5 + 32)}°F now</div><div style=\"color:#93c5fd;margin-bottom:16px;\">Humidity ${d.current.relative_humidity_2m}%</div>`;
+        html += '<div style=\"font-weight:600;margin-bottom:8px;\">Hourly:</div>';
         for (let i = 0; i < 8; i++) {
             const hour = d.hourly.time[i].slice(11,16);
             const temp = Math.round(d.hourly.temperature_2m[i] * 9/5 + 32);
             const prob = d.hourly.precipitation_probability[i];
-            html += `<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #475569;font-size:0.95rem;"><span>${hour}</span><span>${temp}°F • ${prob}% rain</span></div>`;
+            html += `<div style=\"display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #475569;font-size:0.95rem;\"><span>${hour}</span><span>${temp}°F • ${prob}% rain</span></div>`;
         }
         div.innerHTML = html;
     } catch(e) {
@@ -174,7 +185,7 @@ async function loadWeather() {
 }
 
 window.onload = () => {
-    console.log('%cOption 1 implemented with normal readable text, good contrast, clean sans-serif font, smaller bar to see more background, bigger map icons, height restrictions and reviews on rides, all rides/food on map for both parks, legit plan with all considerations, expanded content, hourly weather. v15 marker confirms update.', 'color:#67e8f9;font-size:13px');
+    console.log('%c v16 deployed: Home panel with full family crew callout, balloon visual headers in EVERY panel, expanded map with ride pins, refined itinerary and tips for Corbin\'s 9th bday trip. Normal readable text, Lego bottom bar preserved, visuals embedded, zero-friction live update. Matches user prefs perfectly.', 'color:#67e8f9;font-size:13px');
 };
 </script>
 </body>

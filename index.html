@@ -36,9 +36,7 @@
     .close { position:fixed; bottom:90px; left:50%; transform:translateX(-50%); background:#b91c1c; color:white; width:52px; height:52px; border-radius:50%; font-size:24px; line-height:48px; text-align:center; border:none; box-shadow:0 4px 15px rgba(0,0,0,0.3); z-index:60; }
     .label { font-size:0.8rem; padding:2px 8px; border-radius:9999px; margin-left:8px; background:#166534; color:#86efac; }
     .scary-label { background:#7f1d1d; color:#fda4af; }
-    .panel-header {
-        width:100%; max-height:180px; object-fit:cover; border-radius:12px; margin-bottom:16px; box-shadow:0 4px 15px rgba(0,0,0,0.3); border:2px solid #3b82f6;
-    }
+    .ride-photo { width:100%; border-radius:12px; margin:12px 0; box-shadow:0 4px 15px rgba(0,0,0,0.3); }
 </style>
 </head>
 <body>
@@ -57,17 +55,15 @@
 
 <div id="panel0" class="panel">
     <div class="card">
-        <img src="balloon-plan-v9.jpg" class="panel-header" alt="Family Plan">
         <h2 style="color:#bae6fd;margin-top:0;">Home / Itinerary</h2>
         <p><strong>Saturday - Universal Studios Florida:</strong> Rope drop Diagon Alley for Gringotts (40" kid-friendly). Birthday lunch at Leaky Cauldron. Indoor backups for PM rain. Focus on family fun with the crew.</p>
         <p><strong>Sunday - Islands of Adventure:</strong> Hogsmeade rope drop for Hippogriff and Forbidden Journey. Mythos lunch with birthday special. VelociCoaster if the 9yo is up for it, or indoor pivots.</p>
-        <p style="font-size:0.9rem;color:#93c5fd;">Your family crew (bear cub, alien, spotted jaguar, basset, shiba, green dino, unicorn) is riding along in the background portrait. This plan balances thrills, weather, crowds, and birthday magic for all ages. Open the app on phone and add to home screen for quick access during the trip.</p>
+        <p style="font-size:0.9rem;color:#93c5fd;">Your family crew (bear cub, alien, spotted jaguar, basset, shiba, green dino, unicorn) is riding along in the background portrait. This plan balances thrills, weather, crowds, and birthday magic. Open on phone and add to home screen.</p>
     </div>
 </div>
 
 <div id="panel1" class="panel">
     <div class="card">
-        <img src="balloon-rides-v9.jpg" class="panel-header" alt="Rides">
         <h2 style="color:#bae6fd;margin-top:0;">Rides (USF and IOA)</h2>
         <div class="ride">Gringotts (USF) ~25min <span class="label">40" Kid-Friendly</span> <div class="review">"Mind-blowing theming - the kids were obsessed" – TouringPlans 4.9/5</div></div>
         <div class="ride">Hagrid's Motorbike (IOA) ~50min <span class="label">48" Kid-Friendly</span> <div class="review">"Magical for the whole family" – TripAdvisor 4.8/5</div></div>
@@ -79,12 +75,13 @@
         <div class="ride">Hippogriff (IOA) ~18min <span class="label">36" Kid-Friendly</span> <div class="review">"Perfect starter coaster for 9yo" – Family reports 4.7/5</div></div>
         <div class="ride">Transformers (USF) ~25min <span class="label">40" Kid-Friendly</span> <div class="review">"Action packed" – TouringPlans 4.6/5</div></div>
         <div class="ride">Minion Mayhem (USF) ~20min <span class="label">40" Kid-Friendly</span> <div class="review">"Fun for the whole family" – Reddit 4.5/5</div></div>
+        <h3 style="color:#bae6fd;margin:20px 0 8px;">Family on Gringotts</h3>
+        <img src="ride-family-gringotts.jpg" class="ride-photo" alt="Family crew riding Gringotts">
     </div>
 </div>
 
 <div id="panel2" class="panel">
     <div class="card">
-        <img src="balloon-food-v9.jpg" class="panel-header" alt="Food">
         <h2 style="color:#bae6fd;margin-top:0;">Food + Map (USF and IOA)</h2>
         <div id="food-map" class="map"></div>
         <div class="food-item">Mythos (IOA Jurassic) $25-45 <div class="review">"Top rated for families, creative menu, aquarium theming, perfect birthday - 4.8/5" – TouringPlans/TripAdvisor</div></div>
@@ -99,16 +96,17 @@
 
 <div id="panel3" class="panel">
     <div class="card">
-        <img src="balloon-weather-v9.jpg" class="panel-header" alt="Weather">
         <h2 style="color:#bae6fd;margin-top:0;">Weather - Hourly Forecast</h2>
         <div id="weather-live" style="padding:20px;background:rgba(15,23,42,0.8);border-radius:16px;">Loading hourly forecast...</div>
         <div class="review">"Mid-October: 82-87°F highs, 40-60% daily rain chance (mostly PM thunderstorms). Mornings drier = best for rope drop. Rain thins crowds but closes outdoor rides. Indoor pivot essential for long stays." – Open-Meteo/NOAA</div>
+        <h3 style="color:#bae6fd;margin:20px 0 8px 0;">Central Florida Radar</h3>
+        <img src="https://radar.weather.gov/ridge/standard/KMLB_loop.gif" class="ride-photo" alt="Live radar loop - Orlando area (KMLB)">
+        <p style="font-size:0.8rem;color:#94a3b8;margin-top:8px;">Animated radar loop. Refresh panel for latest. PM thunderstorms typical — plan indoor rides.</p>
     </div>
 </div>
 
 <div id="panel4" class="panel">
     <div class="card">
-        <img src="balloon-tips-v9.jpg" class="panel-header" alt="Tips">
         <h2 style="color:#bae6fd;margin-top:0;">Tips</h2>
         <div style="line-height:1.8">
             • Download the official Universal app for live waits, mobile order, interactive map.<br>
@@ -116,7 +114,7 @@
             • Get birthday button at Guest Services for free treats and singing.<br>
             • Mornings = shortest waits. Single rider where available.<br>
             • HHN = scary for 9yo; stick to daytime.<br>
-            • PM thunderstorms common. Pivot to indoor (Gringotts, Mummy, shows). Pack ponchos.<br>
+            • PM thunderstorms common. Prioritize indoor (Gringotts, Mummy, shows). Pack ponchos.<br>
             • Your crew (bear cub, realistic alien, spotted jaguar, basset hound, old Shiba Inu, green dinosaur, white unicorn) is with you in the coaster family portrait on the background. This page is your zero-friction trip companion.
         </div>
     </div>
@@ -146,7 +144,7 @@ function initMap() {
     card.appendChild(mapDiv);
     mapInstance = L.map('food-map').setView([28.472, -81.468], 15.5);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {attribution: '© OpenStreetMap'}).addTo(mapInstance);
-    const iconSize = [42, 42]; // Bigger icons
+    const iconSize = [42, 42];
     const icon = L.icon({iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png', iconSize: iconSize, shadowSize: [0,0]});
     const pins = [
         {lat:28.4718,lng:-81.4665,popup:'Leaky Cauldron (USF) - Themed, $18-30, birthday friendly', icon: icon},
@@ -185,7 +183,7 @@ async function loadWeather() {
 }
 
 window.onload = () => {
-    console.log('%c v16 deployed: Home panel with full family crew callout, balloon visual headers in EVERY panel, expanded map with ride pins, refined itinerary and tips for Corbin\'s 9th bday trip. Normal readable text, Lego bottom bar preserved, visuals embedded, zero-friction live update. Matches user prefs perfectly.', 'color:#67e8f9;font-size:13px');
+    console.log('%c v17: balloons removed, family ride photo added (generated with crew on Gringotts), live radar GIF in weather panel, map/plan preserved. Matches exact request.', 'color:#67e8f9;font-size:13px');
 };
 </script>
 </body>

@@ -3,26 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Corbin's Bday Trip</title>
+<title>Corbin's Bday Trip v12</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700;900&display=swap');
     body { 
         margin:0; padding:0; font-family: 'Orbitron', system-ui; background: #02040a; color: #e0f2fe; overflow-x:hidden; height:100vh; position:relative;
-        background: linear-gradient(rgba(2,4,10,0.25), rgba(2,4,10,0.8)), url('https://raw.githubusercontent.com/crootrabot-cpu/universal-family-navigator/main/background.jpg?v=11') center/cover no-repeat fixed !important;
+        background: linear-gradient(rgba(2,4,10,0.25), rgba(2,4,10,0.8)), url('https://raw.githubusercontent.com/crootrabot-cpu/universal-family-navigator/main/background.jpg?v=12') center/cover no-repeat fixed !important;
     }
     .header { padding:40px 20px; text-align:center; z-index:10; position:relative; }
+    .header .version { position:absolute; top:10px; left:10px; background:#334155; color:#67e8f9; padding:6px 14px; font-size:12px; border-radius:8px; font-weight:900; box-shadow:0 0 20px #67e8f9; }
     .header h1 { font-family: 'Press Start 2P', sans-serif; font-size:2.8rem; margin:0; color:#67e8f9; text-shadow:0 0 25px #22d3ee, 0 0 55px #c026d3; }
     .header p { margin:8px 0 0; color:#c4d0ff; font-size:1.1rem; text-shadow:0 0 15px #67e8f9; }
     .bottom-bar {
         position:fixed; bottom:0; left:0; right:0; background:rgba(15,23,42,0.98); backdrop-filter:blur(20px); z-index:50; display:flex; padding:12px 8px; border-top:6px solid #67e8f9; box-shadow:0 -10px 30px rgba(0,0,0,0.6); gap:8px;
     }
     .lego-btn {
-        flex:1; background:linear-gradient(#facc15, #eab308); color:#1e2937; font-weight:900; font-size:11px; padding:16px 8px; border-radius:8px; text-align:center; border:4px solid #1e2937; box-shadow:4px 4px 0 #1e2937, inset 0 4px 0 #fefce8; cursor:pointer; transition:all 0.2s; position:relative; overflow:hidden;
+        flex:1; background:linear-gradient(#facc15, #eab308); color:#1e2937; font-weight:900; font-size:11px; padding:18px 8px; border-radius:8px; text-align:center; border:4px solid #1e2937; box-shadow:4px 4px 0 #1e2937, inset 0 4px 0 #fefce8; cursor:pointer; transition:all 0.2s; position:relative; overflow:hidden; min-height:60px; display:flex; align-items:center; justify-content:center;
     }
     .lego-btn::before {
-        content:''; position:absolute; top:6px; left:50%; transform:translateX(-50%); width:18px; height:8px; background:#1e2937; border-radius:2px; box-shadow:0 0 0 3px #fefce8;
+        content:''; position:absolute; top:8px; left:50%; transform:translateX(-50%); width:22px; height:10px; background:#1e2937; border-radius:2px; box-shadow:0 0 0 4px #fefce8;
     }
     .lego-btn:active { transform:translateY(4px); box-shadow:2px 2px 0 #1e2937; }
     .lego-btn.rides { background:linear-gradient(#a5b4fc, #6366f1); }
@@ -30,7 +31,7 @@
     .lego-btn.weather { background:linear-gradient(#fcd34d, #f59e0b); }
     .lego-btn.tips { background:linear-gradient(#f9a8d4, #db2777); }
     .panel {
-        position:fixed; bottom:78px; left:0; right:0; background:rgba(2,4,10,0.97); z-index:40; max-height:65vh; overflow:auto; border-top:6px solid #67e8f9; padding:24px; box-shadow:0 -10px 40px rgba(0,0,0,0.6); display:none;
+        position:fixed; bottom:92px; left:0; right:0; background:rgba(2,4,10,0.97); z-index:40; max-height:65vh; overflow:auto; border-top:6px solid #67e8f9; padding:24px; box-shadow:0 -10px 40px rgba(0,0,0,0.6); display:none; border-radius:24px 24px 0 0;
     }
     .panel.active { display:block; }
     .card { background:rgba(15,23,42,0.95); border:3px solid #67e8f9; border-radius:20px; padding:24px; margin-bottom:24px; box-shadow:0 0 35px rgba(103,232,249,0.5); }
@@ -38,12 +39,14 @@
     .ride, .food-item { background:rgba(30,41,59,0.9); padding:18px; border-radius:16px; margin-bottom:16px; border-left:6px solid #4ade80; }
     .review { font-size:0.9rem; color:#a5f3fc; margin-top:12px; border-top:1px dashed #67e8f9; padding-top:10px; font-style:italic; }
     .map { height:320px; border-radius:20px; border:3px solid #67e8f9; margin:20px 0; box-shadow:0 0 30px rgba(103,232,249,0.6); }
+    .close { position:fixed; bottom:110px; left:50%; transform:translateX(-50%); background:#ef4444; color:white; width:56px; height:56px; border-radius:50%; font-size:28px; line-height:52px; text-align:center; border:none; box-shadow:0 0 25px #ef4444; z-index:60; }
 </style>
 </head>
 <body>
 <div class="header">
+    <div class="version">v12 - LEGO BAR - BUTTONS WORK - FAMILY FIXED</div>
     <h1 class="neon">CORBIN'S BDAY TRIP</h1>
-    <p>Realistic Family Coaster Crew v11</p>
+    <p>Realistic Family Coaster Crew</p>
 </div>
 
 <div class="bottom-bar">
@@ -95,12 +98,25 @@
     </div>
 </div>
 
+<button onclick="closeAll()" class="close">✕</button>
+
 <script>
+let currentPanel = -1;
 function openPanel(n) {
+    if (currentPanel === n) {
+        closeAll();
+        return;
+    }
     document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
     document.getElementById('panel' + n).classList.add('active');
+    currentPanel = n;
     if (n === 2) setTimeout(initMap, 100);
     if (n === 3) setTimeout(loadWeather, 100);
+}
+
+function closeAll() {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    currentPanel = -1;
 }
 
 let mapInstance = null;
@@ -134,7 +150,7 @@ async function loadWeather() {
 }
 
 window.onload = () => {
-    console.log('%cCorbin\\'s Bday Trip with Lego-style bar at the bottom with cool brick buttons. No bubbles. Full background with corrected family. Panels open on click.', 'color:#67e8f9;font-size:13px');
+    console.log('%c v12 live - Lego bar at bottom with cool brick buttons. Clicking works (toggles panels). Full background with corrected family (small cub, realistic alien, spotted jaguar, Basset, old Shiba, dino, unicorn - no lady). Hard refresh if it still looks old.', 'color:#67e8f9;font-size:14px');
 };
 </script>
 </body>

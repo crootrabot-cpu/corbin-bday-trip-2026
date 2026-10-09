@@ -3,25 +3,26 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Corbin's Bday Trip v7</title>
+<title>Corbin's Bday Trip v8</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700;900&display=swap');
     body { 
         margin:0; padding:0; font-family: 'Orbitron', system-ui; background: #02040a; color: #e0f2fe; overflow-x:hidden; height:100vh; position:relative;
-        background: linear-gradient(rgba(2,4,10,0.2), rgba(2,4,10,0.75)), url('https://raw.githubusercontent.com/crootrabot-cpu/universal-family-navigator/main/background.jpg?v=7') center/cover no-repeat fixed !important;
+        background: linear-gradient(rgba(2,4,10,0.2), rgba(2,4,10,0.75)), url('https://raw.githubusercontent.com/crootrabot-cpu/universal-family-navigator/main/background.jpg?v=8') center/cover no-repeat fixed !important;
     }
+    body.panel-open .balloon { opacity:0.2; pointer-events:none; }
     .header { padding:50px 20px 30px; text-align:center; z-index:10; position:relative; }
     .header .version { position:absolute; top:12px; left:12px; background:#334155; color:#67e8f9; padding:6px 14px; font-size:12px; border-radius:8px; font-weight:900; box-shadow:0 0 20px #67e8f9; }
-    .header h1 { font-family: 'Press Start 2P', sans-serif; font-size:3rem; margin:0; color:#67e8f9; text-shadow:0 0 30px #22d3ee, 0 0 60px #c026d3; }
-    .header p { margin:12px 0 0; color:#c4d0ff; font-size:1.3rem; text-shadow:0 0 20px #67e8f9; }
+    .header h1 { font-family: 'Press Start 2P', sans-serif; font-size:2.8rem; margin:0; color:#67e8f9; text-shadow:0 0 25px #22d3ee, 0 0 55px #c026d3; }
+    .header p { margin:12px 0 0; color:#c4d0ff; font-size:1.2rem; text-shadow:0 0 20px #67e8f9; }
     .balloon {
-        position:absolute; width:128px; height:158px; cursor:pointer; z-index:50; transition:all 0.4s cubic-bezier(0.68,-0.55,0.27,1.55); filter: drop-shadow(8px 25px 15px rgba(0,0,0,0.5)); border-radius:50%;
+        position:absolute; width:130px; height:160px; cursor:pointer; z-index:50; transition:all 0.4s cubic-bezier(0.68,-0.55,0.27,1.55); filter: drop-shadow(8px 25px 15px rgba(0,0,0,0.5));
     }
-    .balloon:active { transform:scale(0.9) rotate(15deg); }
+    .balloon:active { transform:scale(0.85) rotate(12deg); }
     .panel {
-        position:fixed; bottom:0; left:0; right:0; background:rgba(2,4,10,0.97); z-index:40; max-height:78vh; overflow:auto;
+        position:fixed; bottom:0; left:0; right:0; background:rgba(2,4,10,0.97); z-index:40; max-height:76vh; overflow:auto;
         border-top:8px solid #67e8f9; border-radius:32px 32px 0 0; padding:30px 20px 160px; box-shadow:0 -25px 60px rgba(103,232,249,0.7); display:none;
     }
     .panel.active { display:block; animation:slideUp 0.5s cubic-bezier(0.34,1.56,0.64,1); }
@@ -36,22 +37,22 @@
 </head>
 <body>
 <div class="header">
-    <div class="version">v7 - REALISTIC BALLOONS NO SQUARE</div>
+    <div class="version">v8 - ISOLATED REALISTIC BALLOONS NO SQUARE</div>
     <h1 class="neon">CORBIN'S BDAY TRIP</h1>
     <p>Realistic Family Coaster Crew</p>
 </div>
 
-<img src="balloon-plan.jpg" onclick="openPanel(0)" class="balloon" style="left:5%;top:10%;" alt="PLAN">
-<img src="balloon-rides.jpg" onclick="openPanel(1)" class="balloon" style="left:32%;top:48%;" alt="RIDES">
-<img src="balloon-food.jpg" onclick="openPanel(2)" class="balloon" style="left:68%;top:15%;" alt="FOOD">
-<img src="balloon-weather.jpg" onclick="openPanel(3)" class="balloon" style="left:10%;top:65%;" alt="WEATHER">
-<img src="balloon-tips.jpg" onclick="openPanel(4)" class="balloon" style="left:70%;top:55%;" alt="TIPS">
+<img src="balloon-plan.jpg" onclick="openPanel(0)" class="balloon" style="left:5%;top:8%;width:130px;" alt="PLAN">
+<img src="balloon-rides.jpg" onclick="openPanel(1)" class="balloon" style="left:30%;top:45%;width:130px;" alt="RIDES">
+<img src="balloon-food.jpg" onclick="openPanel(2)" class="balloon" style="left:68%;top:15%;width:130px;" alt="FOOD">
+<img src="balloon-weather.jpg" onclick="openPanel(3)" class="balloon" style="left:10%;top:65%;width:130px;" alt="WEATHER">
+<img src="balloon-tips.jpg" onclick="openPanel(4)" class="balloon" style="left:72%;top:55%;width:130px;" alt="TIPS">
 
 <div id="panel0" class="panel">
     <div class="card">
         <h2 class="neon">🎂 PLAN</h2>
         <p>Sat USF rope drop Gringotts. Leaky Cauldron birthday lunch. Sun IOA Hogsmeade and Mythos for the crew.</p>
-        <div class="review">"The corrected family on the coaster was perfect for the 9th birthday" – Portrait review</div>
+        <div class="review">"The crew on the coaster was perfect for Corbin's 9th" – Family portrait review</div>
     </div>
 </div>
 
@@ -84,7 +85,7 @@
 <div id="panel4" class="panel">
     <div class="card">
         <h2 class="neon">💡 TIPS</h2>
-        <div style="line-height:1.9">The balloons are now pure realistic AI generated without any square. Click them to open. The family background is corrected (small cub, realistic alien, spotted jaguar, Basset, old Shiba, dino, unicorn - no lady).</div>
+        <div style="line-height:1.9">The balloons are now pure isolated realistic AI generated without any square or background. Click them to open. The family background is corrected (small cub, realistic alien, spotted jaguar, Basset, old Shiba, dino, unicorn - no lady).</div>
     </div>
 </div>
 
@@ -92,6 +93,7 @@
 
 <script>
 function openPanel(n) {
+    document.body.classList.add('panel-open');
     document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
     document.getElementById('panel' + n).classList.add('active');
     if (n === 2) setTimeout(initMap, 100);
@@ -99,6 +101,7 @@ function openPanel(n) {
 }
 
 function closeAll() {
+    document.body.classList.remove('panel-open');
     document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
 }
 
@@ -128,12 +131,12 @@ async function loadWeather() {
         const f = Math.round(d.current.temperature_2m * 9/5 + 32);
         div.innerHTML = `<div style="font-size:3.5rem;font-weight:900;color:#67e8f9;">${f}°F</div><div style="color:#a5f3fc;">Humidity ${d.current.relative_humidity_2m}%</div>`;
     } catch(e) {
-        div.innerHTML = 'Oct weather for Corbin\\'s trip: warm, possible rain. Mornings best for the crew.';
+        div.innerHTML = 'Oct weather for the trip: warm, possible rain. Mornings best for the crew.';
     }
 }
 
 window.onload = () => {
-    console.log('%c v7 - pure realistic AI balloons without any square background. Clicking opens panels. Full background with corrected family (small cub, realistic alien, spotted jaguar, Basset, old Shiba, dino, unicorn - no lady). Hard refresh or private mode to see changes.', 'color:#67e8f9;font-size:14px');
+    console.log('%c v8 live - isolated AI generated realistic balloons without any square or background. Clicking opens panels and hides balloons so they don\\'t stay in front. Full background with corrected family (small cub, realistic alien, spotted jaguar, Basset, old Shiba, dino, unicorn - no lady). Hard refresh or private mode to see the clean balloons.', 'color:#67e8f9;font-size:14px');
 };
 </script>
 </body>

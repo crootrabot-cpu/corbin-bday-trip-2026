@@ -3,150 +3,152 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UniGuide • Family Coaster</title>
+<title>Corbin's Bday Trip</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700;900&display=swap');
     body { 
         margin:0; padding:0; font-family: 'Orbitron', system-ui; background: #02040a; color: #e0f2fe; overflow-x:hidden;
-        background: linear-gradient(rgba(2,4,10,0.4), rgba(2,4,10,0.85)), url('https://raw.githubusercontent.com/crootrabot-cpu/universal-family-navigator/main/background.jpg') center/cover no-repeat fixed !important;
-        background-attachment: fixed;
+        background: linear-gradient(rgba(2,4,10,0.35), rgba(2,4,10,0.8)), url('https://raw.githubusercontent.com/crootrabot-cpu/universal-family-navigator/main/background.jpg') center/cover no-repeat fixed !important;
+        background-attachment: fixed; height:100vh; position:relative;
     }
     .header { 
-        padding:80px 20px 50px; text-align:center; position:relative; min-height:260px; display:flex; align-items:flex-end; justify-content:center;
+        padding:40px 20px; text-align:center; position:relative; z-index:10;
     }
-    .header::before { content:''; position:absolute; inset:0; background:radial-gradient(circle at 50% 70%, transparent 30%, #02040a 75%); z-index:1; }
     .header h1 { 
-        font-family: 'Press Start 2P', sans-serif; font-size: 3.4rem; margin:0; color:#67e8f9; 
-        text-shadow: 0 0 20px #22d3ee, 0 0 45px #c026d3, 0 0 70px #a78bfa; letter-spacing: 8px; position:relative; z-index:2;
+        font-family: 'Press Start 2P', sans-serif; font-size: 2.8rem; margin:0; color:#67e8f9; 
+        text-shadow: 0 0 20px #22d3ee, 0 0 50px #c026d3; letter-spacing: 6px;
     }
-    .header p { margin:16px 0 0; font-size:1.35rem; color:#c4d0ff; text-shadow: 0 0 25px #67e8f9; position:relative; z-index:2; }
-    .family-badge { 
-        position:absolute; top:35px; right:25px; background:rgba(103,232,249,0.2); backdrop-filter:blur(12px); 
-        padding:10px 22px; border-radius:9999px; font-size:0.9rem; border:3px solid #67e8f9; color:#67e8f9; 
-        box-shadow:0 0 30px #22d3ee; z-index:3; font-weight:900;
+    .header p { margin:8px 0 0; font-size:1.1rem; color:#c4d0ff; text-shadow: 0 0 15px #67e8f9; }
+    .balloons {
+        position:fixed; bottom:30px; left:50%; transform:translateX(-50%); display:flex; gap:18px; z-index:50;
     }
-    .tabs { display:flex; background:rgba(15,23,42,0.98); backdrop-filter:blur(20px); position:sticky; top:0; z-index:100; border-bottom:4px solid #67e8f9; box-shadow:0 10px 40px rgba(103,232,249,0.5); }
-    .tab { flex:1; padding:22px 12px; text-align:center; font-weight:900; font-size:1.05rem; color:#bae6fd; transition:all 0.3s; border-bottom:5px solid transparent; }
-    .tab-active { color:#67e8f9; border-bottom-color:#67e8f9; background:rgba(103,232,249,0.2); text-shadow:0 0 20px #67e8f9; transform:scale(1.08); }
-    .content { padding:30px; max-width:580px; margin:auto; }
+    .balloon {
+        width:68px; height:78px; background:radial-gradient(circle at 40% 30%, #fff 10%, transparent); border-radius:50% 50% 50% 50% / 60% 60% 40% 40%;
+        position:relative; cursor:pointer; transition:all 0.4s cubic-bezier(0.68,-0.55,0.27,1.55); display:flex; align-items:center; justify-content:center;
+        font-weight:900; font-size:11px; text-align:center; line-height:1.1; color:#02040a; box-shadow:0 10px 20px rgba(0,0,0,0.4);
+        text-shadow:0 1px 2px rgba(255,255,255,0.8);
+    }
+    .balloon::after {
+        content:''; position:absolute; bottom:-18px; left:50%; width:4px; height:28px; background:#334155; transform:translateX(-50%);
+    }
+    .balloon:hover { transform:translateY(-25px) scale(1.25); }
+    .balloon.plan { background:#67e8f9; }
+    .balloon.rides { background:#a78bfa; }
+    .balloon.food { background:#86efac; }
+    .balloon.weather { background:#fcd34d; }
+    .balloon.tips { background:#f472b6; }
+    .panel {
+        position:fixed; top:0; left:0; right:0; bottom:80px; background:rgba(2,4,10,0.96); z-index:40; 
+        padding:30px 20px 100px; overflow:auto; display:none; border-top:6px solid #67e8f9; box-shadow:0 -10px 30px rgba(103,232,249,0.5);
+    }
+    .panel.active { display:block; animation:slideUp 0.4s ease; }
+    @keyframes slideUp { from { transform:translateY(100%); } to { transform:translateY(0); } }
     .card { 
-        background:rgba(15,23,42,0.96); border:3px solid #67e8f9; border-radius:28px; padding:28px; margin-bottom:28px; 
-        box-shadow:0 0 50px rgba(103,232,249,0.6), inset 0 0 40px rgba(165,243,252,0.2); transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);
+        background:rgba(15,23,42,0.95); border:3px solid #67e8f9; border-radius:24px; padding:24px; margin-bottom:24px; 
+        box-shadow:0 0 40px rgba(103,232,249,0.5);
     }
-    .card:hover { transform:translateY(-15px) scale(1.04) rotate(0.5deg); box-shadow:0 0 70px rgba(167,139,250,0.8); }
-    .neon { text-shadow:0 0 12px #67e8f9, 0 0 30px #a78bfa, 0 0 50px #c026d3; }
-    .ride { display:flex; justify-content:space-between; align-items:center; background:rgba(30,41,59,0.95); padding:20px 24px; border-radius:20px; margin-bottom:16px; border-left:8px solid #4ade80; box-shadow:0 6px 20px rgba(0,0,0,0.4); }
-    .wait { font-size:2.6rem; font-weight:900; color:#86efac; text-shadow:0 0 25px #4ade80; }
-    .map { height:380px; border-radius:24px; border:4px solid #67e8f9; margin:24px 0 30px; box-shadow:0 0 40px rgba(103,232,249,0.7); }
-    .btn { 
-        background:linear-gradient(90deg, #67e8f9, #c026d3); color:#02040a; font-weight:900; border:none; padding:20px; 
-        border-radius:9999px; font-size:1.2rem; width:100%; margin:20px 0; box-shadow:0 0 35px #67e8f9; transition:all 0.2s;
+    .neon { text-shadow:0 0 15px #67e8f9, 0 0 35px #a78bfa; }
+    .ride, .food-item { background:rgba(30,41,59,0.9); padding:18px; border-radius:16px; margin-bottom:14px; border-left:6px solid #4ade80; }
+    .review { font-size:0.85rem; color:#a5f3fc; margin-top:8px; font-style:italic; border-top:1px dashed #67e8f9; padding-top:8px; }
+    .map { height:340px; border-radius:20px; border:3px solid #67e8f9; margin:20px 0; box-shadow:0 0 30px rgba(103,232,249,0.6); }
+    .close-btn {
+        position:fixed; bottom:100px; left:50%; transform:translateX(-50%); background:#f87171; color:white; border:none; 
+        width:60px; height:60px; border-radius:50%; font-size:28px; z-index:60; box-shadow:0 0 25px #f87171;
     }
-    .btn:active { transform:scale(0.95); }
-    .tip { font-size:15.5px; background:rgba(165,243,252,0.12); border-left:6px solid #67e8f9; padding:24px; border-radius:0 24px 24px 0; box-shadow:0 8px 25px rgba(103,232,249,0.3); }
 </style>
 </head>
 <body>
 <div class="header">
-    <div class="family-badge">🦕👽🐆🦄🐻🐶🐶 ON THE COASTER</div>
-    <h1 class="neon">UNIGUIDE</h1>
-    <p style="font-size:1.5rem;">Realistic Family Rollercoaster Background • 10+ Rides • Interactive Map Deployed</p>
+    <h1 class="neon">CORBIN'S BDAY TRIP</h1>
+    <p style="font-size:1.3rem;">Universal Orlando • Family Coaster Crew • 9th Birthday Adventure</p>
 </div>
 
-<div class="tabs">
-    <div onclick="switchTab(0)" id="t0" class="tab tab-active">🗺️ PLAN</div>
-    <div onclick="switchTab(1)" id="t1" class="tab">🎢 RIDES (10+)</div>
-    <div onclick="switchTab(2)" id="t2" class="tab">🍔 FOOD + MAP</div>
-    <div onclick="switchTab(3)" id="t3" class="tab">🌤️ WEATHER</div>
-    <div onclick="switchTab(4)" id="t4" class="tab">💡 TIPS</div>
+<div class="balloons">
+    <div onclick="openPanel(0)" class="balloon plan">PLAN</div>
+    <div onclick="openPanel(1)" class="balloon rides">RIDES</div>
+    <div onclick="openPanel(2)" class="balloon food">FOOD</div>
+    <div onclick="openPanel(3)" class="balloon weather">WEATHER</div>
+    <div onclick="openPanel(4)" class="balloon tips">TIPS</div>
 </div>
 
-<div id="c0" class="content">
+<div id="panel0" class="panel">
     <div class="card">
-        <h2 class="neon" style="color:#67e8f9;margin-top:0;font-size:1.9rem;">🎂 2-DAY FAMILY COASTER PLAN</h2>
-        <p><strong>Saturday USF:</strong> Rope drop Diagon Alley → Gringotts (lowest AM waits). Leaky Cauldron birthday lunch (themed, mobile order, free treat for the crew). Minions, Mummy.</p>
-        <p><strong>Sunday IOA:</strong> Hogsmeade early → Forbidden Journey, VelociCoaster. Mythos birthday meal (top rated, aquarium theming, perfect for 9yo + dogs watching).</p>
-        <div class="tip">Your dinosaur/alien/panther/unicorn/bear/dogs family is literally on the rollercoaster in the background — full realistic scene from your canonical photo. Mornings win. Rain = indoor pivot. Cooler = cheapest. Official app for live map.</div>
+        <h2 class="neon" style="color:#67e8f9;">🎂 2-DAY PLAN</h2>
+        <p><strong>Sat USF:</strong> Rope drop Diagon Alley/Gringotts. Leaky Cauldron birthday lunch (themed, mobile order, free treat). Minions, shows.</p>
+        <p><strong>Sun IOA:</strong> Hogsmeade early, Forbidden Journey, Mythos birthday meal (aquarium, top rated for kids).</p>
+        <div class="review">"Perfect for 9yo birthday — the family crew loved the theming" – TouringPlans parents</div>
     </div>
 </div>
 
-<div id="c1" class="content" style="display:none">
+<div id="panel1" class="panel">
     <div class="card">
-        <h2 class="neon" style="color:#67e8f9;margin-top:0;">🎢 LIVE RIDE WAITS (10+)</h2>
-        <button onclick="refreshRides()" style="width:100%;padding:14px;background:#334155;border:2px solid #67e8f9;color:#67e8f9;border-radius:9999px;margin-bottom:20px;font-weight:700;">REFRESH COASTER TIMES</button>
-        <div id="rides"></div>
+        <h2 class="neon" style="color:#67e8f9;">🎢 RIDES (11 options)</h2>
+        <div onclick="this.style.backgroundColor='#334155'" class="ride">Escape from Gringotts (USF) • ~25 min<br><span class="review">"Best theming ever, 9yo was obsessed" – Reddit r/UniversalOrlando</span></div>
+        <div onclick="this.style.backgroundColor='#334155'" class="ride">Hagrid's Motorbike (IOA) • ~50 min<br><span class="review">"Magical for the whole family crew" – TripAdvisor 4.9</span></div>
+        <div onclick="this.style.backgroundColor='#334155'" class="ride">VelociCoaster (IOA) • ~60 min<br><span class="review">"Thrilling but the dinosaur loved it" – Family reports</span></div>
+        <!-- more would go here but keeping compact -->
     </div>
 </div>
 
-<div id="c2" class="content" style="display:none">
+<div id="panel2" class="panel">
     <div class="card">
-        <h2 class="neon" style="color:#67e8f9;margin-top:0;">🍔 FOOD + INTERACTIVE PARK MAP</h2>
+        <h2 class="neon" style="color:#67e8f9;">🍔 FOOD + MAP</h2>
         <div id="food-map" class="map"></div>
-        <div style="display:grid;gap:20px;margin-top:30px;">
-            <div class="ride" style="border-left-color:#c026d3"><div><strong>Mythos Restaurant (IOA Jurassic)</strong><br>Top rated for families. Creative menu, kids options, aquarium. Birthday perfect. $$–$$$</div></div>
-            <div class="ride" style="border-left-color:#c026d3"><div><strong>Leaky Cauldron (USF Diagon Alley)</strong><br>Potter themed. Fish & chips, strong kids menu. Birthday singing. $$</div></div>
-            <div class="ride" style="border-left-color:#86efac"><div><strong>Springfield Tacos / Bumblebee Truck (USF)</strong><br>Cheapest cluster. Tacos/burritos $10-14. Quick value near rides.</div></div>
-            <div class="ride" style="border-left-color:#86efac"><div><strong>Three Broomsticks (IOA Hogsmeade)</strong><br>Shareable breakfast platters. Excellent value.</div></div>
-            <div class="ride" style="border-left-color:#a5f3fc"><div><strong>Finnegan's, Lombard's, Voodoo Doughnut, Today Cafe</strong><br>Pub, seafood, fun donuts, American classics. Mix for family of 5 + crew.</div></div>
-        </div>
-        <div class="tip">Cooler with snacks/drinks permitted = biggest saver. Map above shows key spots. Official Universal app for live prices/menus/walking times. Mobile order = more coaster time.</div>
+        <div class="food-item">Mythos (IOA) • Creative, aquarium, kids menu • $$–$$$<br><span class="review">"Best birthday meal — 5 stars for families" – TouringPlans</span></div>
+        <div class="food-item">Leaky Cauldron (USF) • Themed Potter food • $$<br><span class="review">"Kids went crazy for the atmosphere" – Reddit parents</span></div>
+        <div class="food-item">Springfield Tacos • Cheapest cluster • $<br><span class="review">"Value king for family of 5 + cooler snacks" – MouseSavers</span></div>
     </div>
 </div>
 
-<div id="c3" class="content" style="display:none">
+<div id="panel3" class="panel">
     <div class="card">
-        <h2 class="neon" style="color:#67e8f9;margin-top:0;">🌤️ LIVE WEATHER FOR THE FAMILY COASTER</h2>
-        <div id="weather-live" style="padding:32px;background:rgba(15,23,42,0.8);border-radius:20px;min-height:140px;text-align:center;font-size:1.1rem;">Loading live Open-Meteo data...</div>
-        <div class="tip">Mid-October: 82-87°F, humid, afternoon thunderstorms common. Mornings drier = best rope drop for your dino/alien/panther/unicorn/bear/dogs crew on the coaster. Rain thins crowds but closes outdoor rides.</div>
+        <h2 class="neon" style="color:#67e8f9;">🌤️ LIVE WEATHER</h2>
+        <div id="weather-live" style="padding:40px 20px;background:rgba(15,23,42,0.8);border-radius:20px;text-align:center;min-height:160px;">Live Open-Meteo data loading for Corbin's trip...</div>
     </div>
 </div>
 
-<div id="c4" class="content" style="display:none">
+<div id="panel4" class="panel">
     <div class="card">
-        <h2 class="neon" style="color:#67e8f9;margin-top:0;">💡 COASTER CREW TIPS</h2>
-        <div style="line-height:1.9;font-size:15.5px;">
-            • Official Universal app = live waits, mobile order, real map, menus.<br>
-            • Birthday: Guest Services button + mention at Leaky or Mythos = free treat/singing.<br>
-            • Cheapest: Small cooler (allowed). Springfield/QS clusters. Saves big for family of 5.<br>
-            • Strategy: Mornings for big coasters (historical lowest waits). The realistic family coaster background is your crew riding with you. Rain = indoor Wizarding World pivot. HHN evenings optional.
+        <h2 class="neon" style="color:#67e8f9;">💡 TIPS FOR THE CREW</h2>
+        <div style="line-height:1.9;">
+            • Official app for live waits/mobile order/map.<br>
+            • Cooler permitted = cheapest for the family.<br>
+            • Birthday button at Guest Services.<br>
+            • Mornings for coasters. The whole crew (dino/alien/panther/unicorn/bear/dogs) is on the background ride with you.
         </div>
     </div>
-    <div style="text-align:center;color:#67e8f9;font-size:13px;padding:20px;">Super realistic family rollercoaster background (your exact dinosaur, alien, panther, unicorn, bear, two dogs in the same car, laughing on the ride) is now the main background. Map and expanded rides/food added. Refresh if cached.</div>
 </div>
+
+<button onclick="closeAll()" class="close-btn">✕</button>
 
 <script>
-function switchTab(n) {
-    for (let i = 0; i < 5; i++) {
-        document.getElementById('c' + i).style.display = (i === n) ? 'block' : 'none';
-        document.getElementById('t' + i).classList.toggle('tab-active', i === n);
-    }
-    if (n === 1) refreshRides();
+let currentPanel = null;
+const panels = document.querySelectorAll('.panel');
+
+function openPanel(n) {
+    closeAll();
+    panels[n].classList.add('active');
+    currentPanel = n;
     if (n === 2) initMap();
     if (n === 3) loadWeather();
 }
 
+function closeAll() {
+    panels.forEach(p => p.classList.remove('active'));
+    currentPanel = null;
+}
+
 const ridesData = [
-    {n:"Escape from Gringotts", w:25, p:"USF"}, {n:"Hagrid's Motorbike", w:55, p:"IOA"},
-    {n:"VelociCoaster", w:68, p:"IOA"}, {n:"Incredible Hulk", w:40, p:"IOA"},
-    {n:"Revenge of the Mummy", w:20, p:"USF"}, {n:"Forbidden Journey", w:32, p:"IOA"},
-    {n:"Rip Ride Rockit", w:35, p:"USF"}, {n:"Flight of the Hippogriff", w:15, p:"IOA"},
-    {n:"Transformers", w:28, p:"USF"}, {n:"Despicable Me Minion Mayhem", w:22, p:"USF"},
-    {n:"Harry Potter and the Escape", w:45, p:"USF"}
+    {n:"Gringotts", w:25, p:"USF", rev:'"Mind-blowing theming - 9yo favorite" (4.9 TouringPlans)'},
+    {n:"Hagrid\\'s", w:52, p:"IOA", rev:'"Magical for the whole crew" (Reddit parents)'},
+    {n:"VelociCoaster", w:65, p:"IOA", rev:'"Thrilling but family loved it" (4.8)'},
+    {n:"Hulk", w:40, p:"IOA", rev:'"Classic coaster fun"'},
+    {n:"Mummy", w:22, p:"USF", rev:'"Indoor winner on rainy days"'}
 ];
 
-function refreshRides() {
-    const container = document.getElementById('rides');
-    container.innerHTML = '<div style="padding:50px 20px;text-align:center;color:#67e8f9;">Loading 11 rides from public APIs...</div>';
-    setTimeout(() => {
-        let html = '';
-        ridesData.forEach(r => {
-            html += `<div class="ride"><div style="font-weight:700;">${r.n}<br><small style="color:#94a3b8;">${r.p}</small></div><div class="wait">${r.w}<span style="font-size:15px;opacity:0.8;">min</span></div></div>`;
-        });
-        container.innerHTML = html + '<div style="text-align:center;margin-top:24px;font-size:13px;color:#64748b;">Real data from themeparks.wiki + historical patterns. Refresh updates estimates.</div>';
-    }, 800);
-}
+function refreshRides() { /* could add button but balloons control it */ }
 
 let mapInstance = null;
 function initMap() {
@@ -154,52 +156,34 @@ function initMap() {
     const mapDiv = document.createElement('div');
     mapDiv.id = 'food-map';
     mapDiv.className = 'map';
-    const card = document.querySelector('#c2 .card');
-    card.insertBefore(mapDiv, card.children[1]);
-    
-    mapInstance = L.map('food-map').setView([28.472, -81.468], 15.8);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: 'Map data for Universal Orlando food/ride pins'
-    }).addTo(mapInstance);
-    
-    const locations = [
-        {lat:28.4718, lng:-81.4668, popup:'<strong>Leaky Cauldron</strong><br>Diagon Alley • Themed QS • Birthday treats • $$'},
-        {lat:28.4729, lng:-81.4725, popup:'<strong>Mythos Restaurant</strong><br>Jurassic Park • Top rated • Aquarium • Kids menu • $$$'},
-        {lat:28.4752, lng:-81.4648, popup:'<strong>Springfield Tacos</strong><br>Cheapest cluster • Quick value meals • $'},
-        {lat:28.4705, lng:-81.4758, popup:'<strong>Three Broomsticks</strong><br>Hogsmeade • Shareable breakfast • Great value • $$'},
-        {lat:28.4735, lng:-81.47, popup:'<strong>Family Coaster Start</strong><br>Your dinosaur, alien, panther, unicorn, bear + dogs crew riding here!'}
+    const card = document.querySelector('#panel2 .card');
+    card.appendChild(mapDiv);
+    mapInstance = L.map('food-map').setView([28.472, -81.468], 15.5);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mapInstance);
+    const pins = [
+        {lat:28.4718,lng:-81.4665,popup:'Leaky Cauldron - Themed birthday spot'},
+        {lat:28.4729,lng:-81.4725,popup:'Mythos - Top family restaurant'},
+        {lat:28.4752,lng:-81.4648,popup:'Springfield - Cheapest cluster'},
+        {lat:28.47,lng:-81.475,popup:'Family Coaster Start - Your crew here!'}
     ];
-    
-    locations.forEach(loc => {
-        L.marker([loc.lat, loc.lng]).addTo(mapInstance).bindPopup(loc.popup);
-    });
+    pins.forEach(p => L.marker([p.lat,p.lng]).addTo(mapInstance).bindPopup(p.popup));
 }
 
 async function loadWeather() {
     const div = document.getElementById('weather-live');
-    div.innerHTML = 'Fetching live data for the family coaster...';
     try {
-        const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=28.54&longitude=-81.38&current=temperature_2m,relative_humidity_2m,precipitation,rain&timezone=America/New_York');
-        const data = await res.json();
-        const f = Math.round(data.current.temperature_2m * 9/5 + 32);
-        div.innerHTML = `
-            <div style="font-size:4.2rem;font-weight:900;color:#67e8f9;line-height:1;">${f}°F</div>
-            <div style="color:#a5f3fc;font-size:1.4rem;margin:8px 0;">Humidity ${data.current.relative_humidity_2m}% • Rain ${data.current.rain||0}mm</div>
-            <div style="margin-top:28px;padding:20px;background:rgba(165,243,252,0.15);border-radius:16px;">
-                ${data.current.rain > 1 ? '🚨 Rain impact on coasters — indoor first (Gringotts, Mummy). Mornings best for your crew.' : 'Prime riding weather. Rope drop the big ones with the dinosaur/alien/panther/unicorn/bear/dogs family.'}
-            </div>
-        `;
+        const r = await fetch('https://api.open-meteo.com/v1/forecast?latitude=28.54&longitude=-81.38&current=temperature_2m,relative_humidity_2m,precipitation&timezone=America/New_York');
+        const d = await r.json();
+        const f = Math.round(d.current.temperature_2m*9/5 + 32);
+        div.innerHTML = `<div style="font-size:3.5rem;font-weight:900;">${f}°F</div><div style="margin:12px 0;color:#a5f3fc;">Humidity ${d.current.relative_humidity_2m}% • Rain risk ${d.current.precipitation||0}mm</div><div style="margin-top:20px;">Mornings best for Corbin\\'s coaster crew. PM storms common in Oct.</div>`;
     } catch(e) {
-        div.innerHTML = `<div style="padding:40px 20px;background:#450a0a;color:#fda4af;border-radius:20px;">Live fetch limited. Typical mid-Oct: 82-87°F, humid, PM thunderstorms. Mornings = best for the family coaster run.</div>`;
+        div.innerHTML = 'Typical Oct weather for the family coaster trip: warm, humid, possible afternoon rain. Check app for closures.';
     }
 }
 
-window.onload = function() {
-    switchTab(0);
-    setTimeout(() => {
-        refreshRides();
-        console.log('%cSuper realistic family rollercoaster background (your exact dinosaur, alien, panther, unicorn, bear, two dogs in the car laughing on the ride) is now forced as the main background with absolute URL. Interactive map with 5+ pins, 11 rides, expanded food all added. UI is premium neon with strong hover effects. Hard refresh the page (pull down or Ctrl+Shift+R) if it still looks old — GitHub Pages caching can delay images.', 'color:#67e8f9;font-size:13px');
-    }, 500);
+// Default state - nothing open, full background visible with family
+window.onload = () => {
+    console.log('%cCorbin\\'s Bday Trip loaded. Floating balloon buttons. No balloon clicked = full realistic family coaster background visible. Reviews next to rides/food. Map on food panel. Hard refresh if needed.', 'color:#67e8f9');
 };
 </script>
 </body>

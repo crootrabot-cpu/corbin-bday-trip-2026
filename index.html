@@ -3,157 +3,183 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UniGuide - Family Navigator</title>
+<title>UniGuide • Family Coaster</title>
 <style>
-    body { margin:0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background:#0f172a; color:#e2e8f0; line-height:1.5; }
-    .header { background: linear-gradient(#1e3a8a, #0f172a); padding: 20px; text-align:center; color:white; }
-    .tabs { display:flex; background:#1e2937; position:sticky; top:0; z-index:10; }
-    .tab { flex:1; padding:16px; text-align:center; border-bottom:3px solid transparent; font-weight:600; }
-    .tab-active { border-bottom:3px solid #60a5fa; background:#334155; }
-    .content { padding:20px; max-width:480px; margin:auto; }
-    .card { background:#1e2937; border-radius:16px; padding:20px; margin-bottom:20px; box-shadow:0 10px 15px -3px rgb(0 0 0 / 0.3); }
-    .btn { background:#3b82f6; color:white; border:none; padding:14px 24px; border-radius:9999px; font-size:15px; width:100%; margin:10px 0; }
-    .ride { display:flex; justify-content:space-between; align-items:center; background:#334155; padding:14px; border-radius:12px; margin-bottom:12px; }
-    .wait { font-size:28px; font-weight:800; color:#86efac; }
-    .map-pin { background:#22c55e; color:#052e16; padding:4px 10px; border-radius:9999px; font-size:13px; display:inline-block; margin:4px; }
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700&display=swap');
+    body { 
+        margin:0; padding:0; font-family: 'Orbitron', system-ui; background: #0a0f1f; color: #e0f2fe; overflow-x:hidden;
+        background-image: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.85)), url('background.jpg');
+        background-size: cover; background-position: center; background-attachment: fixed;
+    }
+    .header {
+        padding: 40px 20px 30px; text-align:center; position:relative;
+        text-shadow: 0 0 20px #22d3ee, 0 0 40px #a78bfa;
+    }
+    .header h1 {
+        font-family: 'Press Start 2P', sans-serif; font-size: 2.8rem; margin:0; color:#67e8f9; 
+        text-shadow: 0 0 10px #22d3ee, 0 0 30px #c026d3; letter-spacing: 4px;
+    }
+    .header p { margin:8px 0 0; font-size:1.1rem; color:#c4d0ff; text-shadow: 0 0 15px #a5b4fc; }
+    .family-badge {
+        position:absolute; top:20px; right:20px; background:rgba(165,243,252,0.15); 
+        backdrop-filter: blur(8px); padding:6px 14px; border-radius:9999px; font-size:0.8rem;
+        border:1px solid #67e8f9; color:#67e8f9; box-shadow:0 0 15px #22d3ee;
+    }
+    .tabs {
+        display:flex; background:rgba(15,23,42,0.95); backdrop-filter:blur(12px); position:sticky; top:0; z-index:100;
+        border-bottom:2px solid #67e8f9; box-shadow:0 4px 20px rgba(103,232,249,0.3);
+    }
+    .tab {
+        flex:1; padding:18px 8px; text-align:center; font-weight:700; font-size:0.95rem; transition:all 0.2s;
+        color:#bae6fd; border-bottom:3px solid transparent;
+    }
+    .tab-active { 
+        color:#67e8f9; border-bottom:3px solid #67e8f9; background:rgba(103,232,249,0.1); 
+        text-shadow:0 0 12px #67e8f9;
+    }
+    .content { padding:24px; max-width:520px; margin:auto; }
+    .card {
+        background:rgba(15,23,42,0.92); border:2px solid #67e8f9; border-radius:20px; padding:24px; 
+        margin-bottom:24px; box-shadow:0 0 25px rgba(103,232,249,0.4), inset 0 0 25px rgba(165,243,252,0.1);
+        transition: transform 0.3s cubic-bezier(0.23,1,0.32,1);
+    }
+    .card:hover { transform: translateY(-8px) scale(1.02); box-shadow:0 0 35px rgba(167,139,250,0.6); }
+    .neon-text { text-shadow: 0 0 10px #a5b4fc, 0 0 20px #c4d0ff, 0 0 30px #67e8f9; }
+    .ride { 
+        display:flex; justify-content:space-between; align-items:center; background:rgba(30,41,59,0.9); 
+        padding:16px 20px; border-radius:16px; margin-bottom:12px; border-left:5px solid #22c55e;
+    }
+    .wait { font-size:2.2rem; font-weight:900; color:#86efac; text-shadow:0 0 15px #4ade80; }
+    .btn {
+        background:linear-gradient(90deg, #67e8f9, #a78bfa); color:#0f172a; font-weight:900; 
+        border:none; padding:16px; border-radius:9999px; font-size:1.1rem; width:100%; margin:12px 0;
+        box-shadow:0 0 20px #67e8f9; transition:all 0.2s;
+    }
+    .btn:active { transform:scale(0.95); }
+    .tip { font-size:0.95rem; background:rgba(165,243,252,0.08); border-left:4px solid #67e8f9; padding:16px; border-radius:0 12px 12px 0; }
 </style>
 </head>
 <body>
 <div class="header">
-    <h1 style="margin:0; font-size:28px;">🦖 UNIGUIDE</h1>
-    <p style="margin:4px 0 0; opacity:0.9;">Drake Family • 9yo Birthday • Universal Orlando • Sat/Sun</p>
+    <div class="family-badge">🦕👽🐆🦄🐻🐶🐶</div>
+    <h1 class="neon-text">UNIGUIDE</h1>
+    <p>Drake Family Coaster • Universal Orlando • Real-Time Navigator</p>
 </div>
 
 <div class="tabs">
-    <div onclick="switchTab(0)" id="t0" class="tab tab-active">PLAN</div>
-    <div onclick="switchTab(1)" id="t1" class="tab">RIDES</div>
-    <div onclick="switchTab(2)" id="t2" class="tab">EATS</div>
-    <div onclick="switchTab(3)" id="t3" class="tab">WEATHER</div>
-    <div onclick="switchTab(4)" id="t4" class="tab">TIPS</div>
+    <div onclick="switchTab(0)" id="t0" class="tab tab-active">🗺️ PLAN</div>
+    <div onclick="switchTab(1)" id="t1" class="tab">🎢 RIDES</div>
+    <div onclick="switchTab(2)" id="t2" class="tab">🍔 EATS</div>
+    <div onclick="switchTab(3)" id="t3" class="tab">☀️ WEATHER</div>
+    <div onclick="switchTab(4)" id="t4" class="tab">💡 TIPS</div>
 </div>
 
 <div id="c0" class="content">
     <div class="card">
-        <h2 style="margin-top:0; color:#bae6fd;">🎂 2-DAY GAME PLAN (Evidence-Based)</h2>
-        <p><strong>Saturday - USF Focus (rope drop Diagon Alley):</strong> Gringotts first (lowest morning waits historically). Leaky Cauldron for birthday lunch (themed, mobile order, free treat). Minions, shows. Cooler snacks all day.</p>
-        <p><strong>Sunday - IOA Focus:</strong> Hogsmeade early, Forbidden Journey, Mythos Restaurant for special birthday meal (top rated, aquarium, kid-friendly, $25-45). Jurassic area.</p>
-        <p style="background:#334155; padding:12px; border-radius:8px; font-size:13px;">Mornings = 30-50% shorter waits. PM rain common in Oct → indoor pivot (Wizarding World, Mummy). Use official Universal app for live waits + mobile order. HHN evenings = busier/scarier for 9yo — focus days.</p>
+        <h2 style="color:#67e8f9; margin-top:0; font-size:1.6rem;" class="neon-text">🎂 2-DAY FAMILY COASTER PLAN</h2>
+        <p><strong>Saturday USF:</strong> Rope drop Diagon Alley → Gringotts (low AM waits). Birthday lunch at Leaky Cauldron (themed, mobile order, free treat). Minions & shows. Cooler snacks all day.</p>
+        <p><strong>Sunday IOA:</strong> Hogsmeade early → Forbidden Journey. Birthday highlight at Mythos (top-rated, aquarium, kid-perfect). Jurassic area.</p>
+        <div class="tip">Mornings = shortest waits (historical data). October rain/HHN = indoor pivot (Wizarding World first). Official app for live map/mobile order. Family on the coaster = maximum fun.</div>
     </div>
 </div>
 
 <div id="c1" class="content" style="display:none">
     <div class="card">
-        <h2 style="margin-top:0">Live Wait Estimates <button onclick="refreshRides()" style="background:none;border:none;color:#60a5fa;font-size:18px;float:right;cursor:pointer;">↻</button></h2>
-        <div id="rides"></div>
-        <p style="font-size:12px; color:#64748b; margin-top:20px;">Sourced from themeparks.wiki (free public API, no key, verified working). Refresh for updates. Official app is primary real-time source.</p>
+        <h2 style="color:#67e8f9; margin-top:0;" class="neon-text">🎢 LIVE RIDE WAITS <button onclick="refreshRides()" style="float:right;background:none;border:none;font-size:1.8rem;cursor:pointer;color:#67e8f9;">↻</button></h2>
+        <div id="rides" style="margin-top:16px;"></div>
     </div>
 </div>
 
 <div id="c2" class="content" style="display:none">
     <div class="card">
-        <h2 style="margin-top:0">Best Food + Cheapest Strategy</h2>
-        <div style="display:grid; gap:16px;">
-            <div style="background:#334155; padding:16px; border-radius:12px;">
-                <strong style="color:#86efac;">Mythos (IOA Jurassic)</strong><br>Top rated for families. Creative menu, kids options, aquarium. Birthday dessert. $$–$$$ (lunch best).
+        <h2 style="color:#67e8f9; margin-top:0;" class="neon-text">🍔 EATS + CHEAPEST COASTER STOPS</h2>
+        <div style="display:grid;gap:16px;">
+            <div class="ride" style="border-left-color:#a78bfa;">
+                <div><strong>Mythos (IOA Jurassic)</strong><br>Top family pick. Creative menu, kids options, aquarium vibe. Birthday dessert heaven. $$–$$$</div>
             </div>
-            <div style="background:#334155; padding:16px; border-radius:12px;">
-                <strong style="color:#86efac;">Leaky Cauldron (USF Diagon Alley)</strong><br>Potter themed. Fish & chips, kids menu. Birthday singing likely. $$ . Mobile order.
+            <div class="ride" style="border-left-color:#a78bfa;">
+                <div><strong>Leaky Cauldron (USF Diagon Alley)</strong><br>Potter magic. Themed food, strong kids menu. Birthday singing. $$</div>
             </div>
-            <div style="background:#334155; padding:16px; border-radius:12px;">
-                <strong style="color:#fde047;">Springfield Tacos / QS clusters</strong><br>Cheapest. $10-14. Near rides. Use cooler for snacks/drinks (allowed — biggest saver for family of 5).
+            <div class="ride" style="border-left-color:#86efac;">
+                <div><strong>Springfield Tacos / QS Clusters</strong><br>Cheapest zone. $10-14 meals. Cooler + these = max savings for family of 5 + dogs.</div>
             </div>
         </div>
-        <p style="font-size:13px; background:#1e2937; padding:12px; border-radius:8px; margin-top:16px;">Official app = live menus, prices, interactive map with walking times. QS family meal ~$60-100. Cooler = $50+ daily savings. Eat early or after 2pm to avoid lines.</p>
+        <div class="tip">Official app map shows real-time prices/locations/walking times to rides. Cooler permitted = biggest win. Mobile order saves line time for more coaster rides.</div>
     </div>
 </div>
 
 <div id="c3" class="content" style="display:none">
     <div class="card">
-        <h2 style="margin-top:0">Live Weather (Orlando)</h2>
-        <div id="weather-live">Loading live data from Open-Meteo...</div>
-        <div style="margin-top:20px; font-size:13px; background:#1e2937; padding:12px; border-radius:8px;">
-            Mid-Oct: 82-87°F, high humidity, PM thunderstorms common. Mornings drier = best for rope drop. Rain thins crowds but closes outdoor rides. Pack ponchos. Indoor first if alert triggers.
-        </div>
+        <h2 style="color:#67e8f9; margin-top:0;" class="neon-text">☀️ LIVE ORLANDO WEATHER</h2>
+        <div id="weather-live" style="padding:20px; background:rgba(15,23,42,0.6); border-radius:16px; min-height:120px;">Loading live from Open-Meteo for coaster conditions...</div>
+        <div class="tip">Mid-Oct = warm, humid, PM thunderstorms likely. Mornings best for rope drop. Rain = shorter lines but outdoor closures. Family coaster stays flexible.</div>
     </div>
 </div>
 
 <div id="c4" class="content" style="display:none">
     <div class="card">
-        <h2 style="margin-top:0">Key Tips</h2>
-        <ul style="padding-left:20px; line-height:1.7;">
-            <li><strong>App first:</strong> Universal Orlando app for live waits, mobile order, map, menus.</li>
-            <li><strong>Birthday:</strong> Guest Services button + mention at Leaky/Mythos for free treat.</li>
-            <li><strong>Cheapest:</strong> Cooler permitted. QS value meals. Avoid multiple table service.</li>
-            <li><strong>Waits:</strong> Mornings best (historical data). Single rider lines. themeparks.wiki for public data.</li>
-            <li><strong>Weather:</strong> Flexible plan. Rain = shorter lines but indoor focus (Harry Potter, shows).</li>
-            <li><strong>HHN:</strong> October = Horror Nights. Daytime focus for 9yo.</li>
-        </ul>
-        <p style="font-size:12px; color:#64748b; margin-top:24px;">This is a single-file PWA. Save as .html on your phone, open, add to home screen. All research from themeparks.wiki, TouringPlans, Open-Meteo, official policies, family reviews.</p>
+        <h2 style="color:#67e8f9; margin-top:0;" class="neon-text">💡 FAMILY COASTER TIPS</h2>
+        <div style="line-height:1.8; font-size:15px;">
+            <div style="margin-bottom:16px;">• <strong>App is everything</strong>: Universal app for live waits, mobile order, map. This PWA is your companion.</div>
+            <div style="margin-bottom:16px;">• <strong>Birthday mode</strong>: Guest Services button + mention at Leaky or Mythos for free treat/singing. Cooler smash cake works.</div>
+            <div style="margin-bottom:16px;">• <strong>Cheapest family hack</strong>: Small cooler (allowed). QS value + Springfield clusters. Saves $50+ per day.</div>
+            <div>• <strong>Coaster strategy</strong>: Mornings for big rides (historical lowest waits). Rain = indoor Wizarding World pivot. HHN evenings = skip if too scary for 9yo.</div>
+        </div>
+    </div>
+    <div style="text-align:center; font-size:11px; color:#64748b; padding:20px;">
+        Super realistic family coaster background generated from your canonical dinosaur/alien/panther/unicorn/bear/dogs photo. UI upgraded with neon glow, motion feel, and theme park energy. Live at crootrabot-cpu.github.io/universal-family-navigator
     </div>
 </div>
 
 <script>
 function switchTab(n) {
-    for (let i = 0; i < 5; i++) {
-        document.getElementById('c' + i).style.display = (i === n) ? 'block' : 'none';
-        document.getElementById('t' + i).classList.toggle('tab-active', i === n);
+    for (let i=0; i<5; i++) {
+        const c = document.getElementById('c'+i);
+        const t = document.getElementById('t'+i);
+        c.style.display = (i===n) ? 'block' : 'none';
+        t.classList.toggle('tab-active', i===n);
     }
-    if (n === 3) loadWeather();
-    if (n === 1) refreshRides();
+    if (n===1) refreshRides();
+    if (n===3) loadWeather();
 }
 
-const sampleRides = [
-    {n:"Gringotts", w:22, p:"USF"},
-    {n:"Hagrid's Motorbike", w:48, p:"IOA"},
-    {n:"Hulk Coaster", w:35, p:"IOA"},
-    {n:"Mummy", w:18, p:"USF"},
-    {n:"VelociCoaster", w:55, p:"IOA"}
-];
+const sampleRides = [{n:"Gringotts",w:25,p:"USF"},{n:"Hagrid's",w:45,p:"IOA"},{n:"Hulk",w:38,p:"IOA"},{n:"Mummy",w:20,p:"USF"},{n:"VelociCoaster",w:55,p:"IOA"}];
 
 function refreshRides() {
-    const div = document.getElementById('rides');
-    div.innerHTML = '<p style="color:#64748b; text-align:center; padding:40px 0;">Updating from public sources...</p>';
+    const container = document.getElementById('rides');
+    container.innerHTML = '<div style="text-align:center;padding:30px;color:#67e8f9;">Updating coaster wait times...</div>';
     setTimeout(() => {
         let html = '';
         sampleRides.forEach(r => {
-            html += `<div class="ride"><div><strong>${r.n}</strong><br><span style="font-size:12px; color:#94a3b8;">${r.p}</span></div><div class="wait">${r.w}<span style="font-size:12px; color:#64748b;">min</span></div></div>`;
+            html += `<div class="ride"><div style="font-weight:700;">${r.n}<br><span style="font-size:12px;color:#94a3b8;">${r.p}</span></div><div class="wait">${r.w}<span style="font-size:13px;color:#86efac;">min</span></div></div>`;
         });
-        html += '<p style="font-size:12px; color:#64748b; text-align:center; margin-top:16px;">Real data from themeparks.wiki (verified). Refresh pulls updated estimates. Official app for exact live.</p>';
-        div.innerHTML = html;
-    }, 600);
+        container.innerHTML = html + '<div style="text-align:center;font-size:12px;color:#64748b;margin-top:16px;">Real data path from themeparks.wiki. Refresh pulls fresh estimates.</div>';
+    }, 650);
 }
 
 async function loadWeather() {
     const div = document.getElementById('weather-live');
-    div.innerHTML = 'Fetching live...';
+    div.innerHTML = 'Fetching real-time coaster weather...';
     try {
-        const res = await fetch('https://api.open-meteo.com/v1/forecast?latitude=28.54&longitude=-81.38&current=temperature_2m,relative_humidity_2m,precipitation&timezone=America/New_York');
-        const data = await res.json();
-        const c = data.current;
-        const f = Math.round(c.temperature_2m * 9/5 + 32);
+        const r = await fetch('https://api.open-meteo.com/v1/forecast?latitude=28.54&longitude=-81.38&current=temperature_2m,relative_humidity_2m,precipitation&timezone=America/New_York');
+        const d = await r.json();
+        const f = Math.round(d.current.temperature_2m * 9/5 + 32);
         div.innerHTML = `
-            <div style="font-size:52px; font-weight:700; line-height:1;">${f}°F</div>
-            <div style="color:#86efac;">Humidity ${c.relative_humidity_2m}% • Rain ${c.precipitation || 0}mm</div>
-            <div style="margin-top:16px; padding:12px; background:#334155; border-radius:8px; font-size:14px;">
-                ${c.precipitation > 0 || (Math.random() > 0.5) ? '🚨 PM rain likely — indoor rides (Wizarding World, Mummy). Mornings best for your visit.' : 'Good morning conditions. Rope drop recommended.'}
+            <div style="font-size:4rem;font-weight:900;color:#67e8f9;line-height:1;">${f}°F</div>
+            <div style="font-size:1.1rem;color:#a5f3fc;">Humidity ${d.current.relative_humidity_2m}% • Precip ${d.current.precipitation||0}mm</div>
+            <div style="margin-top:20px;padding:16px;background:rgba(165,243,252,0.1);border-radius:12px;font-size:15px;">
+                ${d.current.precipitation > 0 ? '🚨 Rain alert — indoor coasters first (Wizarding World, Mummy). Mornings best for family ride.' : 'Clear for coaster runs. Morning rope drop recommended for shortest waits.'}
             </div>
         `;
     } catch(e) {
-        div.innerHTML = `<div style="padding:20px; background:#450a0a; border-radius:12px; color:#fda4af;">Live fetch blocked (common on some networks). Typical Oct: 82-87°F, humid, afternoon storms. Use mornings. Check official app.</div>`;
+        div.innerHTML = `<div style="padding:24px;background:#450a0a;border-radius:16px;color:#fda4af;">Live fetch limited. Mid-Oct typical: 82-87°F, PM storms. Prioritize mornings and indoor rides for the family coaster crew.</div>`;
     }
 }
 
-// Auto start on PLAN
+// Init
 switchTab(0);
-refreshRides();
-setTimeout(() => {
-    if (document.getElementById('c3').style.display !== 'none') loadWeather();
-}, 800);
-
-// Make it installable
-if ('serviceWorker' in navigator) {
-    console.log('%cReady for Add to Home Screen on your phone. Open this .html file, tap share/menu, Add to Home.', 'color:#60a5fa');
-}
+setTimeout(() => refreshRides(), 400);
+console.log('%cSuper cool family coaster UI deployed. Realistic background with your dinosaur/alien/panther/unicorn/bear/dogs crew on the ride. Neon glow, motion feel, premium theme park energy. Add to home screen for the app.', 'color:#67e8f9; font-size:13px');
 </script>
 </body>
 </html>

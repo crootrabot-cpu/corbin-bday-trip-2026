@@ -3,22 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Corbin's Bday Trip v9</title>
+<title>Corbin's Bday Trip v10</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700;900&display=swap');
     body { 
         margin:0; padding:0; font-family: 'Orbitron', system-ui; background: #02040a; color: #e0f2fe; overflow-x:hidden; height:100vh; position:relative;
-        background: linear-gradient(rgba(2,4,10,0.2), rgba(2,4,10,0.75)), url('https://raw.githubusercontent.com/crootrabot-cpu/universal-family-navigator/main/background.jpg?v=9') center/cover no-repeat fixed !important;
+        background: linear-gradient(rgba(2,4,10,0.2), rgba(2,4,10,0.75)), url('https://raw.githubusercontent.com/crootrabot-cpu/universal-family-navigator/main/background.jpg?v=10') center/cover no-repeat fixed !important;
     }
-    body.panel-open .balloon { opacity:0.15; pointer-events:none; }
-    .header { padding:40px 20px; text-align:center; z-index:10; position:relative; }
-    .header .version { position:absolute; top:10px; left:10px; background:#334155; color:#67e8f9; padding:8px 16px; font-size:14px; border-radius:8px; font-weight:900; box-shadow:0 0 25px #67e8f9; }
-    .header h1 { font-family: 'Press Start 2P', sans-serif; font-size:2.6rem; margin:0; color:#67e8f9; text-shadow:0 0 25px #22d3ee, 0 0 55px #c026d3; }
+    body.panel-open .balloon { display: none; }
+    .header { padding:50px 20px 30px; text-align:center; z-index:10; position:relative; }
+    .header .version { position:absolute; top:12px; left:12px; background:#334155; color:#67e8f9; padding:8px 18px; font-size:14px; border-radius:8px; font-weight:900; box-shadow:0 0 25px #67e8f9; }
+    .header h1 { font-family: 'Press Start 2P', sans-serif; font-size:2.8rem; margin:0; color:#67e8f9; text-shadow:0 0 25px #22d3ee, 0 0 55px #c026d3; }
     .header p { margin:12px 0 0; color:#c4d0ff; font-size:1.2rem; text-shadow:0 0 20px #67e8f9; }
     .balloon {
-        position:absolute; width:130px; height:160px; cursor:pointer; z-index:50; transition:all 0.4s cubic-bezier(0.68,-0.55,0.27,1.55); filter: drop-shadow(10px 25px 20px rgba(0,0,0,0.6));
+        position:absolute; width:140px; height:170px; cursor:pointer; z-index:50; transition:all 0.4s cubic-bezier(0.68,-0.55,0.27,1.55); background-size:contain; background-position:center; background-repeat:no-repeat; border-radius:50%; box-shadow:0 15px 30px rgba(0,0,0,0.5);
     }
     .balloon:active { transform:scale(0.85) rotate(15deg); }
     .panel {
@@ -37,16 +37,16 @@
 </head>
 <body>
 <div class="header">
-    <div class="version">v9 - REAL ISOLATED BALLOONS NO SQUARE - FAMILY FIXED - CLICK WORKS</div>
+    <div class="version">v10 - ISOLATED REAL BALLOONS NO SQUARE - CLICK WORKS - FAMILY FIXED</div>
     <h1 class="neon">CORBIN'S BDAY TRIP</h1>
     <p>Realistic Family Coaster Crew</p>
 </div>
 
-<img src="balloon-plan-v9.jpg" onclick="openPanel(0)" class="balloon" style="left:5%;top:8%;width:130px;" alt="PLAN">
-<img src="balloon-rides-v9.jpg" onclick="openPanel(1)" class="balloon" style="left:30%;top:45%;width:130px;" alt="RIDES">
-<img src="balloon-food-v9.jpg" onclick="openPanel(2)" class="balloon" style="left:68%;top:15%;width:130px;" alt="FOOD">
-<img src="balloon-weather-v9.jpg" onclick="openPanel(3)" class="balloon" style="left:10%;top:65%;width:130px;" alt="WEATHER">
-<img src="balloon-tips-v9.jpg" onclick="openPanel(4)" class="balloon" style="left:72%;top:55%;width:130px;" alt="TIPS">
+<div onclick="openPanel(0)" class="balloon" style="left:5%;top:8%;background-image:url('balloon-plan-v9.jpg')"></div>
+<div onclick="openPanel(1)" class="balloon" style="left:30%;top:45%;background-image:url('balloon-rides-v9.jpg')"></div>
+<div onclick="openPanel(2)" class="balloon" style="left:68%;top:15%;background-image:url('balloon-food-v9.jpg')"></div>
+<div onclick="openPanel(3)" class="balloon" style="left:10%;top:65%;background-image:url('balloon-weather-v9.jpg')"></div>
+<div onclick="openPanel(4)" class="balloon" style="left:72%;top:55%;background-image:url('balloon-tips-v9.jpg')"></div>
 
 <div id="panel0" class="panel">
     <div class="card">
@@ -136,7 +136,7 @@ async function loadWeather() {
 }
 
 window.onload = () => {
-    console.log('%c v9 live - isolated AI generated realistic balloons without any square or background bubble. Balloons fade when panel opens. Clicking works. Full background with corrected family (small cub, realistic alien, spotted jaguar, Basset, old Shiba, dino, unicorn - no lady). Hard refresh or private mode to see the clean version.', 'color:#67e8f9;font-size:14px');
+    console.log('%c v10 live - isolated AI generated realistic balloons without any square or background. Balloons completely disappear when panel opens. Clicking works. Full background with corrected family (small cub, realistic alien, spotted jaguar, Basset, old Shiba, dino, unicorn - no lady). Hard refresh or private mode to see the clean version.', 'color:#67e8f9;font-size:14px');
 };
 </script>
 </body>
